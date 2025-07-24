@@ -1,1 +1,20 @@
-<p>Placeholder for Serch bar!</p>
+<div class="search-container">
+  <div class="search-input-wrapper">
+    <input
+      class="search-input"
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+      placeholder="🔍 Search Movies by title"
+    />
+    <button
+      *ngIf="searchTerm"
+      (click)="clearSearch()"
+      class="clear-button"
+      type="button"
+      aria-label="Clear Search"
+    >
+      ✕
+    </button>
+  </div>
+</div>

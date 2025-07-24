@@ -10,11 +10,18 @@ import { MovieListComponent } from './components/movie-list/movie-list.component
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter, Subject, take, takeUntil } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MovieListComponent, RouterOutlet, FormsModule],
+  imports: [
+    CommonModule,
+    MovieListComponent,
+    RouterOutlet,
+    FormsModule,
+    SearchBarComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -107,6 +114,22 @@ export class AppComponent implements OnInit, OnDestroy {
   loadFavorites(): void {
     this.favorites = this.movieService.getFavorites();
     this.filterMovies();
+  }
+
+  onSearchChange(searchTerm: string): void {
+    if (!searchTerm.trim()) {
+      this.filterMovies();
+      return;
+    }
+    this.movieService.searchMovies(searchTerm).subscribe({
+      next: (movies) => {
+        this.allMovies = movies;
+        this.filterMovies();
+      },
+      error: (error) => {
+        console.log('Error searching movies:', error);
+      },
+    });
   }
 
   onGenreChange(genre: string): void {
