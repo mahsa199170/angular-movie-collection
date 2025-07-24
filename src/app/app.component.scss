@@ -140,19 +140,70 @@
 }
 
 .favorites-toggle {
-  flex-direction: row;
+  position: relative;
+  display: flex;
   align-items: center;
   gap: 12px;
 
-  input[type="checkbox"] {
-    accent-color: #ffd700;
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 0.5rem;
-    border: none;
-    transition: box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2) inset;
+  .custom-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 1.3rem;
+    height: 1.3rem;
+    cursor: pointer;
+    margin: 0;
+    z-index: 2;
+  }
+
+  .custom-checkbox-box {
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 6px;
+    border: 2px solid #ffd700;
     background: rgba(34, 36, 58, 0.8);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.18) inset;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    position: relative;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .custom-checkbox:checked + label .custom-checkbox-box {
+    background: rgba(34, 36, 58, 0.8);
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px #ffd70055;
+  }
+
+  .custom-checkbox:checked + label .custom-checkbox-box::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    background: url("data:image/svg+xml;utf8,<svg width='14' height='14' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M5 10.5L9 14.5L15 7.5' stroke='%23ffd700' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+      no-repeat center center;
+    background-size: 14px 14px;
+  }
+
+  .custom-checkbox:focus + label .custom-checkbox-box {
+    outline: 2px solid #ffd700;
+    box-shadow: 0 0 0 2px #ffd70099;
+  }
+
+  label {
+    color: #ffd700;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: "Lato", "Inter", "Segoe UI", Arial, sans-serif;
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-left: 2px;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -162,6 +213,41 @@
   font-weight: 600;
   font-size: 0.9rem;
   padding: 8px 0;
+}
+
+//soritng styles
+.filters-sidebar label[for="sort-select"] {
+  font-weight: 600;
+  color: #ffd700;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+  font-family: "Lato", "Inter", "Segoe UI", Arial, sans-serif;
+  display: block;
+}
+
+#sort-select {
+  width: 100%;
+  padding: 12px 32px 12px 16px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 215, 0, 0.4);
+  background: rgba(34, 36, 58, 0.8);
+  color: #ffd700;
+  font-size: 1rem;
+  font-weight: 700;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.12) inset;
+  font-family: "Lato", "Inter", "Segoe UI", Arial, sans-serif;
+  margin-bottom: 12px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px #ffd70033, 0 2px 8px #ffd70022 inset;
+    background: linear-gradient(120deg, #2d254a 60%, #ffd70022 100%);
+  }
 }
 
 @media (max-width: 1024px) {
