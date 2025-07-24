@@ -1,6 +1,64 @@
 <div class="app-container">
   <header class="app-header">
-    <h1>Movie Collection Manager</h1>
+    <h1 class="app-title">🎬Movie Collection Manager</h1>
   </header>
-  <app-movie-card [movie]="sampleMovie" [isFavorite]="true"></app-movie-card>
+  <main class="app-main" *ngIf="isMainPage">
+    <div class="main-content">
+      <div class="filters-sidebar">
+        <div class="sidebar-header">
+          <h3>Search & Filters</h3>
+        </div>
+
+        <!-- Genre filter -->
+        <div class="filter-section">
+          <div class="genre-filter" *ngIf="!genresLoading && genres.length">
+            <label for="genre-select">Genre</label>
+            <select
+              id="genre-select"
+              [(ngModel)]="selectedGenre"
+              (change)="onGenreChange(genreSelect.value)"
+              #genreSelect
+            >
+              <option value="">All Genres</option>
+              <option *ngFor="let genre of genres" [value]="genre">
+                {{ genre }}
+              </option>
+            </select>
+          </div>
+
+          <div *ngIf="genresLoading" class="genre-loading">
+            Loading Genres...
+          </div>
+          <div *ngIf="genresError" class="genre-error">
+            {{ genresError }}
+          </div>
+        </div>
+
+        <!-- Favorite Toggle -->
+        <div class="filter-section">
+          <div class="favorites-toggle">
+            <input
+              type="checkbox"
+              id="show-favorites"
+              [(ngModel)]="showFavoritesOnly"
+              (change)="onShowFavoritesToggle()"
+            />
+            <label for="show-favorites">Favorits Only</label>
+          </div>
+        </div>
+      </div>
+      <!-- movie list -->
+      <div class="content-area">
+        <app-movie-list
+          [movies]="filteredMovies"
+          [loading]="loading"
+          [favorites]="favorites"
+          (movieSelected)="onMovieSelect($event)"
+          (favoriteToggled)="onFavoriteToggle($event)"
+        >
+        </app-movie-list>
+      </div>
+    </div>
+  </main>
+  <router-outlet *ngIf="!isMainPage"></router-outlet>
 </div>

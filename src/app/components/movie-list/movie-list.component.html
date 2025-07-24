@@ -1,1 +1,23 @@
-<p>movie-list works!</p>
+<div class="movie-ist-container">
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading movies...</p>
+  </div>
+
+  <div *ngIf="!loading && movies.length === 0" class="empty-state">
+    <div class="empty-icon">🎬</div>
+    <h3>No movies found</h3>
+    <p>Try adjusting your search criteria</p>
+  </div>
+
+  <div *ngIf="!loading && movies.length > 0" class="movie-grid">
+    <app-movie-card
+      *ngFor="let movie of movies; trackBy: trackByMovieId"
+      [movie]="movie"
+      [isFavorite]="isFavorite(movie.id)"
+      (movieClick)="onMovieClick($event)"
+      (favoriteToggle)="onFavoriteToggle($event)"
+    >
+    </app-movie-card>
+  </div>
+</div>

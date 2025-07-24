@@ -1,1 +1,84 @@
-<p>movie-detail works!</p>
+<div class="movie-detail-page">
+  <!-- loading -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Loading movie details...</p>
+  </div>
+
+  <!-- error -->
+  <div *ngIf="error && !loading" class="error-container">
+    <div class="error-message">
+      <span class="error-icon">⚠️</span>
+      <span class="error-text"> {{ error }}</span>
+    </div>
+    <button class="back-button" (click)="onBack()">←Back to Movies</button>
+  </div>
+
+  <!-- movie details -->
+
+  <div *ngIf="!loading && !error && movie" class="movie-detail-content">
+    <button class="back-button" (click)="onBack()">←Back to Movies</button>
+
+    <div class="movie-detail-grid">
+      <!-- poster section -->
+      <div class="poster-section">
+        <img
+          [src]="movie.poster"
+          [alt]="movie.title"
+          class="movie-poster"
+          [class.error]="imageError"
+          (error)="onImageError()"
+        />
+        <div class="error-placeholder" *ngIf="imageError">
+          <span class="error-icon">🎬</span>
+          <span class="error-text">No Image</span>
+        </div>
+      </div>
+
+      <!-- Info section -->
+
+      <div class="info-section">
+        <div class="movie-header">
+          <h1 class="movie-title">{{ movie.title }}</h1>
+          <button
+            class="favorite-button"
+            (click)="onFavoriteToggle()"
+            [class.favorite]="isFavorite(movie.id)"
+            aria-label="Toggle favorites"
+          >
+            <span class="heart">♥ </span>
+          </button>
+        </div>
+
+        <div class="movie-meta">
+          <span class="year">{{ movie.year }}</span>
+          <span class="genre">{{ movie.genre }}</span>
+          <span *ngIf="movie.runtime" class="runtime">{{
+            formatRunTime(movie.runtime)
+          }}</span>
+          <span *ngIf="movie.language" class="language">{{
+            movie.language
+          }}</span>
+        </div>
+
+        <div class="director">
+          <strong>Director: </strong>{{ movie.director }}
+        </div>
+
+        <div class="description">
+          <h3>Synopsis</h3>
+          <p>{{ movie.description }}</p>
+        </div>
+
+        <div *ngIf="movie.cast && movie.cast.length > 0" class="cast">
+          <h3>Cast</h3>
+          <div class="cast-list">
+            <span *ngFor="let actor of movie.cast" class="cast-member">{{
+              actor
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

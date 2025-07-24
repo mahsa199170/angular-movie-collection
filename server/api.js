@@ -1,5 +1,5 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const PORT = 3000;
@@ -19,7 +19,8 @@ const movies = [
     rating: 9.3,
     description:
       "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-    poster: "https://via.placeholder.com/300x450/1976d2/ffffff?text=Shawshank",
+    poster:
+      "https://image.tmdb.org/t/p/original/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
     cast: ["Tim Robbins", "Morgan Freeman", "Bob Gunton"],
     runtime: 142,
     language: "English",
@@ -33,7 +34,7 @@ const movies = [
     rating: 9.2,
     description:
       "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-    poster: "https://via.placeholder.com/300x450/1976d2/ffffff?text=Godfather",
+    poster: "https://image.tmdb.org/t/p/w1280/rSPw7tgCH9c6NqICZef4kZjFOQ5.jpg",
     cast: ["Marlon Brando", "Al Pacino", "James Caan"],
     runtime: 175,
     language: "English",
@@ -47,8 +48,7 @@ const movies = [
     rating: 9.0,
     description:
       "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-    poster:
-      "https://via.placeholder.com/300x450/1976d2/ffffff?text=Dark+Knight",
+    poster: "https://image.tmdb.org/t/p/w342/vzqgEDjtqceF3KzIZ1W1iXO7ZyV.jpg",
     cast: ["Christian Bale", "Heath Ledger", "Aaron Eckhart"],
     runtime: 152,
     language: "English",
@@ -62,8 +62,7 @@ const movies = [
     rating: 8.9,
     description:
       "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-    poster:
-      "https://via.placeholder.com/300x450/1976d2/ffffff?text=Pulp+Fiction",
+    poster: "https://image.tmdb.org/t/p/w342/vQWk5YBFWF4bZaofAbv0tShwBvQ.jpg",
     cast: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"],
     runtime: 154,
     language: "English",
@@ -77,8 +76,7 @@ const movies = [
     rating: 8.8,
     description:
       "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75.",
-    poster:
-      "https://via.placeholder.com/300x450/1976d2/ffffff?text=Forrest+Gump",
+    poster: "https://image.tmdb.org/t/p/w342/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
     cast: ["Tom Hanks", "Robin Wright", "Gary Sinise"],
     runtime: 142,
     language: "English",
@@ -92,7 +90,7 @@ const movies = [
     rating: 8.7,
     description:
       "A computer programmer discovers that reality as he knows it is a simulation created by machines, and joins a rebellion to break free.",
-    poster: "https://via.placeholder.com/300x450/1976d2/ffffff?text=Matrix",
+    poster: "https://image.tmdb.org/t/p/w342/p96dm7sCMn4VYAStA6siNz30G1r.jpg",
     cast: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
     runtime: 136,
     language: "English",
@@ -106,7 +104,7 @@ const movies = [
     rating: 8.7,
     description:
       "The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito.",
-    poster: "https://via.placeholder.com/300x450/1976d2/ffffff?text=Goodfellas",
+    poster: "https://image.tmdb.org/t/p/w342/tX1hIHC6ORVPfGKVFCUMJBWB5Td.jpg",
     cast: ["Robert De Niro", "Ray Liotta", "Joe Pesci"],
     runtime: 146,
     language: "English",
@@ -120,8 +118,7 @@ const movies = [
     rating: 8.6,
     description:
       "A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
-    poster:
-      "https://via.placeholder.com/300x450/1976d2/ffffff?text=Silence+Lambs",
+    poster: "https://image.tmdb.org/t/p/w342/uS9m8OBk1A8eM9I042bx8XXpqAq.jpg",
     cast: ["Jodie Foster", "Anthony Hopkins", "Lawrence A. Bonney"],
     runtime: 118,
     language: "English",
