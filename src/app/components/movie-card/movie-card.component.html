@@ -1,1 +1,33 @@
-<p>movie-card works!</p>
+<div class="movie-card" (click)="onMovieClick()">
+  <div class="movie-poster">
+    <img
+      [src]="movie.poster"
+      [alt]="movie.title"
+      (error)="onImageError()"
+      [class.error]="imageError"
+    />
+    <div class="error-placeholder" *ngIf="imageError">
+      <span class="error-icon">🎬</span>
+      <span class="error-text">No Image</span>
+    </div>
+    <div
+      class="favorite-button"
+      [class.favorite]="isFavorite"
+      (click)="onFavoriteToggle($event)"
+    >
+      <span class="heart">🤍</span>
+    </div>
+    <div class="rating-badge">
+      {{ movie.rating.toFixed(1) }}
+    </div>
+  </div>
+
+  <div class="movie-info">
+    <h3 class="movie-title">{{ movie.title }}</h3>
+    <div class="movie-meta">
+      <span class="movie-year">{{ movie.year }}</span>
+      <span class="movie-genre">{{ movie.genre }}</span>
+    </div>
+    <p class="movie-director">Director: {{ movie.director }}</p>
+  </div>
+</div>
