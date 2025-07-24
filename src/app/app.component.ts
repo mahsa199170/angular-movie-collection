@@ -39,8 +39,12 @@ export class AppComponent implements OnInit, OnDestroy {
   genresError: string | null = null;
   selectedGenre: string = '';
 
-  //show favorites only toggle
+  //show favorites only
   showFavoritesOnly: boolean = false;
+
+  //Sorting state
+
+  selectedSort: 'title' | 'year' | 'rating' = 'title';
 
   isMainPage = true;
 
@@ -137,6 +141,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.filterMovies();
   }
 
+  onSortChange(): void {
+    this.filterMovies();
+  }
+
   filterMovies(): void {
     let movies = this.allMovies;
     if (this.selectedGenre) {
@@ -144,6 +152,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if (this.showFavoritesOnly) {
       movies = movies.filter((m) => this.favorites.includes(m.id));
+    }
+    if (this.selectedSort === 'title') {
+      movies = [...movies].sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.selectedSort === 'year') {
+      movies = [...movies].sort((a, b) => a.year - b.year);
+    } else if (this.selectedSort === 'rating') {
+      movies = [...movies].sort((a, b) => b.rating - a.rating);
     }
     this.filteredMovies = movies;
   }
