@@ -1,115 +1,148 @@
-import { Component, inject, OnInit } from '@angular/core';
+//handles fetching movies, genres, and favorites from MovieService
+//manages loading and erro states for teh main page
+
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Movie } from './models/movie.model';
 import { MovieService } from './services/movies.services';
 import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MovieListComponent } from './components/movie-list/movie-list.component';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { filter, Subject, take, takeUntil } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MovieListComponent, RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  sampleMovie: Movie = {
-    id: 1,
-    title: 'Inception',
-    year: 2010,
-    genre: 'Sci-Fi',
-    director: 'Christopher Nolan',
-    rating: 8.8,
-    description: 'A mind-bending thriller.',
-    poster: 'https://via.placeholder.com/200x300?text=Inception',
-  };
-
+export class AppComponent implements OnInit, OnDestroy {
   protected title = 'angular-challenge';
+  allMovies: Movie[] = [];
+  filteredMovies: Movie[] = [];
+  favorites: number[] = [];
+  loading = false;
+  error: string | null = null;
 
-  public MovieService = inject(MovieService);
+  //Genre filter state
+  genres: string[] = [];
+  genresLoading = false;
+  genresError: string | null = null;
+  selectedGenre: string = '';
 
-  public isLoading = false;
+  //show favorites only toggle
+  showFavoritesOnly: boolean = false;
+
+  isMainPage = true;
+
+  public movieService = inject(MovieService);
+  private router = inject(Router);
+  private destroy$ = new Subject<void>();
+
+  // public isLoading = false;
 
   ngOnInit(): void {
-    this.MovieService.loading$.subscribe((loading) => {
-      this.isLoading = loading;
-      console.log('Loading State:', loading);
-    });
-
-    this.testGetMovies();
-    this.testSearchmovies();
-    this.testGetMovieById(3);
-    this.testGetGenre();
-    this.testFavorites();
+    this.getMovies();
+    this.loadFavorites();
+    this.loadGenres();
+    this.movieService.loading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((loading) => {
+        this.loading = loading;
+        console.log('Loading State:', loading);
+      });
+    this.movieService.error$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((error) => {
+        this.error = error;
+        console.log('Error State:', error);
+      });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.isMainPage = this.router.url === '/';
+        if (this.isMainPage) {
+          this.loadFavorites(); //Always refresh favorites wne returning to main page
+        }
+      });
   }
 
-  testGetMovies() {
-    this.MovieService.getMovies().subscribe({
-      next: (movies) => console.log('getmovies', movies),
-      error: (err) => console.log('getMovies error', err),
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  testSearchmovies() {
-    //test with the real title
-    this.MovieService.searchMovies('Matrix').subscribe({
-      next: (movies) => console.log('serach result (matrix)', movies),
-      error: (err) => console.log('serach result (matrix)', err),
-    });
-
-    //tets with empty string (should return all movies)
-    this.MovieService.searchMovies('').subscribe({
-      next: (movies) => console.log('serach result (empty string)', movies),
-      error: (err) => console.log('serach error (empty string)', err),
-    });
-
-    //test with some unknow serach tersms (expect empty array)
-
-    this.MovieService.searchMovies('mjbfhac').subscribe({
-      next: (movies) => console.log('serach result (mjbfhac)', movies),
-      error: (err) => console.log('serach result (mjbfhac)', err),
-    });
-  }
-
-  testGetMovieById(id: number) {
-    console.log('etching movie by id:', id);
-    this.MovieService.getMovieById(id).subscribe({
-      next: (movie) => console.log(`movie with id of ${id}`, movie),
-      error: (err) => console.log(`error fetching movie with id ${id}`, err),
+  getMovies(): void {
+    this.movieService.getMovies().subscribe({
+      next: (movies) => {
+        this.allMovies = movies;
+        this.filterMovies();
+      },
+      error: (error) => {
+        console.log('Error loading movies:', error);
+      },
     });
   }
 
-  testGetGenre() {
-    this.MovieService.getGenres().subscribe({
-      next: (genres) => console.log('genres receieved', genres),
-      error: (err) => console.log('genres error', err),
+  loadGenres(): void {
+    this.genresLoading = true;
+    this.genresError = null;
+    this.movieService.getGenres().subscribe({
+      next: (genres) => {
+        this.genres = genres;
+        this.genresLoading = false;
+      },
+      error: (error) => {
+        this.genresError = 'Failed to load genres';
+        this.genresLoading = false;
+      },
     });
   }
 
-  testFavorites() {
-    const movieId = 3;
+  loadFavorites(): void {
+    this.favorites = this.movieService.getFavorites();
+    this.filterMovies();
+  }
 
-    //add to favorite
-    this.MovieService.addToFavorites(movieId);
-    console.log(`added movie ${movieId} to favorites`);
+  onGenreChange(genre: string): void {
+    this.selectedGenre = genre;
+    this.filterMovies();
+  }
 
-    //chekc if its favorite
+  filterMovies(): void {
+    let movies = this.allMovies;
+    if (this.selectedGenre) {
+      movies = movies.filter((m) => m.genre === this.selectedGenre);
+    }
+    if (this.showFavoritesOnly) {
+      movies = movies.filter((m) => this.favorites.includes(m.id));
+    }
+    this.filteredMovies = movies;
+  }
 
-    const isFav = this.MovieService.isFavorite(movieId);
-    console.log(`is movie ${movieId} favorite?`, isFav); //should be treu
+  onShowFavoritesToggle(): void {
+    this.filterMovies();
+  }
 
-    //get current favorites
-    const currentFav = this.MovieService.getFavorites();
-    console.log('current favorites:', currentFav);
+  onMovieSelect(movie: Movie): void {
+    this.router.navigate(['/movies', movie.id]);
+  }
 
-    //remove form fav
-    this.MovieService.removeFromFavorites(movieId);
-    console.log(`removed movie ${movieId} from favorites`);
+  onFavoriteToggle(movies: Movie): void {
+    if (this.movieService.isFavorite(movies.id)) {
+      this.movieService.removeFromFavorites(movies.id);
+    } else {
+      this.movieService.addToFavorites(movies.id);
+    }
+    this.loadFavorites();
+  }
 
-    //check again
-    const isFavAfterRemove = this.MovieService.isFavorite(movieId);
-    console.log(
-      `is movie ${movieId} favorite after removal?`,
-      isFavAfterRemove
-    ); //shoudl be false
+  clearError(): void {
+    this.error = null;
   }
 }
