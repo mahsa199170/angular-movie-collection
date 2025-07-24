@@ -9,6 +9,13 @@
           <h3>Search & Filters</h3>
         </div>
 
+        <!-- Search -->
+        <div class="filter-section">
+          <app-search-bar
+            (searchTermChange)="onSearchChange($event)"
+          ></app-search-bar>
+        </div>
+
         <!-- Genre filter -->
         <div class="filter-section">
           <div class="genre-filter" *ngIf="!genresLoading && genres.length">
@@ -16,8 +23,7 @@
             <select
               id="genre-select"
               [(ngModel)]="selectedGenre"
-              (change)="onGenreChange(genreSelect.value)"
-              #genreSelect
+              (change)="onGenreChange(selectedGenre)"
             >
               <option value="">All Genres</option>
               <option *ngFor="let genre of genres" [value]="genre">
@@ -47,7 +53,7 @@
           </div>
         </div>
       </div>
-      <!-- movie list -->
+      <!-- Movie list -->
       <div class="content-area">
         <app-movie-list
           [movies]="filteredMovies"
