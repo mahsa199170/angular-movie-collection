@@ -2,15 +2,27 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Movie } from './models/movie.model';
 import { MovieService } from './services/movies.services';
 import { CommonModule } from '@angular/common';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MovieCardComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  sampleMovie: Movie = {
+    id: 1,
+    title: 'Inception',
+    year: 2010,
+    genre: 'Sci-Fi',
+    director: 'Christopher Nolan',
+    rating: 8.8,
+    description: 'A mind-bending thriller.',
+    poster: 'https://via.placeholder.com/200x300?text=Inception',
+  };
+
   protected title = 'angular-challenge';
 
   public MovieService = inject(MovieService);
