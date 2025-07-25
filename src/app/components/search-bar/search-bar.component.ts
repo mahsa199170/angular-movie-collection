@@ -15,9 +15,16 @@ export class SearchBarComponent {
 
   // searchTerm: string = '';
 
+  private lastValue: string = '';
+
   onInputChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    //only emit it input transactions from non-empty to empty
+    if (this.lastValue && !value) {
+      this.searchTermChange.emit('');
+    }
     this.searchTerm = value;
+    this.lastValue = value;
   }
 
   triggerSearch() {
@@ -26,6 +33,7 @@ export class SearchBarComponent {
 
   clearSearch() {
     this.searchTerm = '';
+    this.lastValue = '';
     this.searchTermChange.emit('');
   }
 }
