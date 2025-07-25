@@ -63,27 +63,28 @@ An Angular application built as part of a coding challenge. The app allows users
 
 ## Project Structure
 
+```text
 angular-movie-collection/
 │
 ├── server/
-│ └── api.js # Mock Node.js API server
+│   └── api.js                 # Mock Node.js API server
 │
 ├── src/
-│ ├── app/
-│ │ ├── components/
-│ │ │ ├── movie-card/ # Individual movie card
-│ │ │ ├── movie-list/ # Movie grid display
-│ │ │ ├── movie-detail/ # Movie detail view
-│ │ │ └── search-bar/ # Search input component
-│ │ ├── models/ # TypeScript interfaces
-│ │ ├── services/ # MovieService logic
-│ │ ├── app.component.\* # Root app component
-│ │ └── app.routes.ts # Routing configuration
-│ ├
-│ ├── styles.scss # Global styling
-│ └── index.html
+│   ├── app/
+│   │   ├── components/
+│   │   │   ├── movie-card/     # Individual movie card
+│   │   │   ├── movie-list/     # Movie grid display
+│   │   │   ├── movie-detail/   # Movie detail view
+│   │   │   └── search-bar/     # Search input component
+│   │   ├── models/             # TypeScript interfaces
+│   │   ├── services/           # MovieService logic
+│   │   ├── app.component.*     # Root app component
+│   │   └── app.routes.ts       # Routing configuration
+│   ├── styles.scss             # Global styling
+│   └── index.html
 │
 ├── angular.json
 ├── package.json
 ├── README.md
 └── tsconfig.json
+```
