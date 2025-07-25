@@ -12,6 +12,7 @@
     <!-- Search -->
     <div class="filter-section">
       <app-search-bar
+        [searchTerm]="searchTerm"
         (searchTermChange)="onSearchChange($event)"
       ></app-search-bar>
     </div>

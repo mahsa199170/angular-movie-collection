@@ -33,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   loading = false;
   error: string | null = null;
 
+  searchTerm: string = '';
+
   //Genre filter state
   genres: string[] = [];
   genresLoading = false;
@@ -66,7 +68,47 @@ export class AppComponent implements OnInit, OnDestroy {
       document.body.classList.remove('light-theme');
     }
 
-    this.getMovies();
+    //Restore filter from sessionStorage
+
+    const filterState = sessionStorage.getItem('movieFilters');
+    if (filterState) {
+      try {
+        const { selectedSort, selectedGenre, showFavoritesOnly } =
+          JSON.parse(filterState);
+
+        if (selectedSort) {
+          this.selectedSort = selectedSort;
+        }
+        if (selectedGenre) {
+          this.selectedGenre = selectedGenre;
+        }
+
+        if (typeof showFavoritesOnly === 'boolean') {
+          this.showFavoritesOnly = showFavoritesOnly;
+        }
+      } catch (e) {
+        console.log('Failed to parse filter state from sessionStorage', e);
+      }
+    }
+
+    //Restore search term form sessionStorage and trigger search nefore get movies
+
+    const savedSearch = sessionStorage.getItem('movieSearchTerm');
+    if (savedSearch && savedSearch.trim()) {
+      this.searchTerm = savedSearch;
+      this.movieService.searchMovies(savedSearch).subscribe({
+        next: (movies) => {
+          this.allMovies = movies;
+          this.filterMovies();
+        },
+        error: (error) => {
+          console.log('Error searching movies', error);
+        },
+      });
+    } else {
+      this.getMovies();
+    }
+
     this.loadFavorites();
     this.loadGenres();
     this.movieService.loading$
@@ -132,10 +174,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onSearchChange(searchTerm: string): void {
+    this.searchTerm = searchTerm;
     if (!searchTerm.trim()) {
-      this.filterMovies();
+      sessionStorage.removeItem('movieSearchTerm');
+      // this.filterMovies();
+      this.getMovies();
       return;
     }
+    sessionStorage.setItem('movieSearchTerm', searchTerm);
     this.movieService.searchMovies(searchTerm).subscribe({
       next: (movies) => {
         this.allMovies = movies;
@@ -149,10 +195,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onGenreChange(genre: string): void {
     this.selectedGenre = genre;
+    this.saveFiltersToSession();
     this.filterMovies();
   }
 
   onSortChange(): void {
+    this.saveFiltersToSession();
     this.filterMovies();
   }
 
@@ -175,6 +223,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onShowFavoritesToggle(): void {
+    this.saveFiltersToSession();
     this.filterMovies();
   }
 
@@ -204,5 +253,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   clearError(): void {
     this.error = null;
+  }
+
+  private saveFiltersToSession() {
+    sessionStorage.setItem(
+      'movieFilters',
+      JSON.stringify({
+        selectedSort: this.selectedSort,
+        selectedGenre: this.selectedGenre,
+        showFavoritesOnly: this.showFavoritesOnly,
+      })
+    );
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,15 +10,21 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent {
+  @Input() searchTerm: string = '';
   @Output() searchTermChange = new EventEmitter<string>();
 
-  searchTerm: string = '';
+  // searchTerm: string = '';
 
-  onSearchChange(): void {
+  onInputChange(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm = value;
+  }
+
+  triggerSearch() {
     this.searchTermChange.emit(this.searchTerm);
   }
 
-  clearSearch(): void {
+  clearSearch() {
     this.searchTerm = '';
     this.searchTermChange.emit('');
   }
