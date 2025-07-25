@@ -1,10 +1,20 @@
 <div class="search-container">
   <div class="search-input-wrapper">
+    <button
+      class="search-button"
+      type="button"
+      aria-lable="Serach"
+      (click)="triggerSearch()"
+    >
+      🔍
+    </button>
+
     <input
       class="search-input"
       type="text"
-      [(ngModel)]="searchTerm"
-      (input)="onSearchChange()"
+      [value]="searchTerm"
+      (input)="onInputChange($event)"
+      (keyup.enter)="triggerSearch()"
       placeholder="Search by title....."
     />
     <button
