@@ -21,11 +21,26 @@ describe('SearchBarComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit searchTermChanges on input', () => {
+  it('should emit searchTermChanges when magnifier is clicked', () => {
     spyOn(component.searchTermChange, 'emit');
     const input = fixture.debugElement.query(By.css('input'));
     input.nativeElement.value = 'batman';
     input.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    const button = fixture.debugElement.query(By.css('.search-button'));
+    button.nativeElement.click();
+    fixture.detectChanges();
+    expect(component.searchTermChange.emit).toHaveBeenCalledWith('batman');
+  });
+
+  it('should emit searchTermChanges when enter is pressed', () => {
+    spyOn(component.searchTermChange, 'emit');
+    const input = fixture.debugElement.query(By.css('input'));
+    input.nativeElement.value = 'batman';
+    input.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    const event = new KeyboardEvent('keyup', { key: 'Enter' });
+    input.nativeElement.dispatchEvent(event);
     fixture.detectChanges();
     expect(component.searchTermChange.emit).toHaveBeenCalledWith('batman');
   });
