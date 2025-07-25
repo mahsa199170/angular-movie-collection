@@ -1,5 +1,23 @@
 /* Global Style */
 
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap");
+
+body {
+  font-family: "Lato", "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.app-title,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", "Lato", "Inter", "Segoe UI", Arial, serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
 :root {
   --color-primary: #23243a;
   --color-secondary: #3a2c60;
@@ -38,6 +56,155 @@ body {
   background: var(--color-bg-gradient);
   color: #fffbe6;
   overflow-x: hidden;
+}
+
+body.light-theme {
+  --color-bg-gradient: linear-gradient(135deg, #f7f7fa 0%, #e6e6ef 100%);
+  --color-primary: #23243a;
+  --color-secondary: #3a2c60;
+  --color-accent: #ffd700;
+  --color-card-bg: #fff;
+  --color-card-shadow: 0 4px 24px 0 #23243a11, 0 2px 8px 0 #ffd70011;
+  --color-header-bg: #fff;
+  --color-header-title: #23243a;
+  --color-sidebar-bg: #f7f7fa;
+  --color-sidebar-border: #e6e6ef;
+  --color-text: #23243a;
+  --color-label: #3a2c60;
+  --color-input-bg: #fff;
+  --color-input-border: #e6e6ef;
+  --color-input-text: #23243a;
+  --color-button-bg: #ffd700;
+  --color-button-text: #23243a;
+  --color-glass: rgba(255, 255, 255, 0.7);
+}
+
+body.light-theme {
+  background: var(--color-bg-gradient);
+  color: var(--color-text);
+}
+
+body.light-theme .app-container,
+body.light-theme .app-main {
+  background: var(--color-bg-gradient);
+  color: var(--color-text);
+}
+
+body.light-theme .app-header {
+  background: var(--color-header-bg);
+  box-shadow: 0 2px 12px #23243a11;
+}
+
+body.light-theme .app-title {
+  color: #111 !important;
+  background: none !important;
+  -webkit-text-fill-color: #111 !important;
+  text-fill-color: #111 !important;
+  text-shadow: none !important;
+  color: var(--color-header-title);
+  background: none;
+  -webkit-text-fill-color: var(--color-header-title);
+  text-fill-color: var(--color-header-title);
+  text-shadow: none;
+  filter: none;
+}
+
+body.light-theme .filters-sidebar {
+  background: var(--color-sidebar-bg);
+  border: 1px solid var(--color-sidebar-border);
+  color: var(--color-text);
+  box-shadow: 0 2px 12px #23243a11;
+}
+
+body.light-theme .filter-section label,
+body.light-theme .genre-filter label,
+body.light-theme .favorites-toggle label {
+  color: var(--color-label);
+}
+
+body.light-theme .genre-filter select,
+body.light-theme .favorites-toggle input[type="checkbox"],
+body.light-theme .custom-checkbox-box,
+body.light-theme .search-input {
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: 1.5px solid var(--color-input-border);
+  box-shadow: 0 1px 4px #23243a11 inset;
+}
+
+body.light-theme .custom-checkbox:checked + label .custom-checkbox-box {
+  background: var(--color-input-bg);
+  border-color: var(--color-accent);
+}
+
+body.light-theme .custom-checkbox:checked + label .custom-checkbox-box::after {
+  background: url("data:image/svg+xml;utf8,<svg width='14' height='14' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M5 10.5L9 14.5L15 7.5' stroke='%23ffd700' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+    no-repeat center center;
+  background-size: 14px 14px;
+}
+
+body.light-theme .main-content,
+body.light-theme .content-area {
+  color: var(--color-text);
+}
+
+body.light-theme .movie-card {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  box-shadow: var(--color-card-shadow);
+  border: 1px solid var(--color-input-border);
+}
+
+body.light-theme .movie-card .rating-badge {
+  background: var(--color-accent);
+  color: var(--color-primary);
+  box-shadow: 0 1px 4px #ffd70022;
+}
+
+body.light-theme .movie-card .favorite-button {
+  background: var(--color-input-bg);
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+}
+
+body.light-theme .movie-card .favorite-button.favorite {
+  background: var(--color-accent);
+  color: var(--color-primary);
+}
+
+body.light-theme .movie-detail-page {
+  background: var(--color-bg-gradient);
+  color: var(--color-text);
+}
+
+body.light-theme .movie-detail-grid {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  box-shadow: var(--color-card-shadow);
+}
+
+body.light-theme .movie-detail-page .back-button {
+  background: linear-gradient(90deg, #ffd700 0%, #ffb86b 100%);
+  color: #fff !important;
+  border: 1.5px solid #ffd700;
+  box-shadow: 0 2px 12px #ffd70033;
+}
+
+body.light-theme .search-input {
+  background: var(--color-input-bg);
+  color: var(--color-input-text);
+  border: 1.5px solid var(--color-input-border);
+}
+
+body.light-theme .clear-button {
+  color: var(--color-accent);
+}
+
+body.light-theme .dropdown-options {
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  border: 1.5px solid var(--color-accent);
+  box-shadow: 0 2px 8px #23243a11;
 }
 
 /* Typography */
@@ -299,4 +466,129 @@ textarea:focus {
   .no-print {
     display: none !important;
   }
+}
+
+body.light-theme,
+body.light-theme * {
+  color: #111 !important;
+}
+
+body.light-theme .movie-card .rating-badge,
+body.light-theme .movie-card .favorite-button,
+body.light-theme .movie-card .favorite-button.favorite,
+body.light-theme .movie-detail-page .back-button,
+body.light-theme .clear-button {
+  color: #ffd700 !important;
+}
+
+//body light theme
+
+body.light-theme {
+  background: linear-gradient(135deg, #fff 0%, #f3f3f7 100%) !important;
+
+  color: #23243a !important;
+}
+
+body.light-theme .app-title,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme h4,
+body.light-theme h5,
+body.light-theme h6,
+body.light-theme label,
+body.light-theme .filter-section label,
+body.light-theme .genre-filter label,
+body.light-theme .favorites-toggle label {
+  color: #23243a !important;
+}
+
+body.light-theme .movie-card .rating-badge,
+body.light-theme .movie-card .favorite-button,
+body.light-theme .movie-card .favorite-button.favorite,
+body.light-theme .movie-detail-page .back-button,
+body.light-theme .clear-button {
+  color: #ffd700 !important;
+  background: #fffbe6 !important;
+  border-color: #ffd700 !important;
+}
+
+body.light-theme .movie-card,
+body.light-theme .movie-detail-grid,
+body.light-theme .filters-sidebar,
+body.light-theme .theme-toggle,
+body.light-theme .search-input,
+body.light-theme .dropdown-options {
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.08), 0 1.5px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .movie-card,
+body.light-theme .movie-detail-grid,
+body.light-theme .filters-sidebar,
+body.light-theme .search-input,
+body.light-theme .dropdown-options,
+body.light-theme .custom-checkbox-box {
+  border: 1.5px solid #e6e6ef !important;
+}
+
+body.light-theme .search-input,
+body.light-theme select,
+body.light-theme input[type="text"],
+body.light-theme input[type="email"],
+body.light-theme input[type="password"] {
+  background: #fff !important;
+  color: #23243a !important;
+  border: 1.5px solid #e6e6ef !important;
+  box-shadow: 0 1.5px 4px #e6e6ef33 inset;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+body.light-theme .search-input:focus,
+body.light-theme select:focus,
+body.light-theme input[type="text"]:focus,
+body.light-theme input[type="email"]:focus,
+body.light-theme input[type="password"]:focus {
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 2px #ffd70033, 0 1.5px 4px #e6e6ef33 inset;
+  outline: none;
+}
+
+//Favorites only checkbox visibility
+body.light-theme .favorites-toggle .custom-checkbox-box {
+  border: 2px solid #23243a !important;
+  background: #fff !important;
+  border-radius: 6px !important;
+  box-shadow: 0 1.5px 4px #e6e6ef33 inset;
+}
+body.light-theme
+  .favorites-toggle
+  .custom-checkbox:checked
+  + label
+  .custom-checkbox-box {
+  background: #fff !important;
+  border-color: #23243a !important;
+}
+body.light-theme
+  .favorites-toggle
+  .custom-checkbox:checked
+  + label
+  .custom-checkbox-box::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  background: url("data:image/svg+xml;utf8,<svg width='14' height='14' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M5 10.5L9 14.5L15 7.5' stroke='%2323243a' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+    no-repeat center center;
+  background-size: 14px 14px;
+}
+
+//Movie cards and detail pages
+body.light-theme .movie-card,
+body.light-theme .movie-detail-grid {
+  background: #fff !important;
+  color: #23243a !important;
+  border-radius: 18px;
 }

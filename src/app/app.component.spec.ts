@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('App', () => {
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent, HttpClientTestingModule],
@@ -88,5 +88,36 @@ describe('App', () => {
     app.selectedSort = 'rating';
     app.filterMovies();
     expect(app.filteredMovies.map((m) => m.rating)).toEqual([8.5, 7.5, 6.5]);
+  });
+
+  it('should toggle theme and update isDarkTheme', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.isDarkTheme = true;
+    document.body.classList.remove('light-theme');
+    localStorage.setItem('theme', 'dark');
+
+    app.toggleTheme();
+    expect(app.isDarkTheme).toBe(false);
+    expect(document.body.classList.contains('light-theme')).toBeTrue();
+    expect(localStorage.getItem('theme')).toBe('light');
+
+    app.toggleTheme();
+    expect(app.isDarkTheme).toBe(true);
+    expect(document.body.classList.contains('light-theme')).toBeFalse();
+    expect(localStorage.getItem('theme')).toBe('dark');
+  });
+
+  it('should initialize theme from localStorage', () => {
+    localStorage.setItem('theme', 'dark');
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.ngOnInit();
+    expect(app.isDarkTheme).toBe(false);
+    expect(document.body.classList.contains('light-theme')).toBeTrue();
+    localStorage.setItem('theme', 'dark');
+    app.ngOnInit();
+    expect(app.isDarkTheme).toBe(true);
+    expect(document.body.classList.contains('light-theme')).toBeFalse();
   });
 });
