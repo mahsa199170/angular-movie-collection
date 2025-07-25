@@ -47,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedSort: 'title' | 'year' | 'rating' = 'title';
 
   isMainPage = true;
+  isDarkTheme = true;
 
   public movieService = inject(MovieService);
   private router = inject(Router);
@@ -55,6 +56,16 @@ export class AppComponent implements OnInit, OnDestroy {
   // public isLoading = false;
 
   ngOnInit(): void {
+    //preserver the theme in localStorage
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light') {
+      this.isDarkTheme = false;
+      document.body.classList.add('light-theme');
+    } else {
+      this.isDarkTheme = true;
+      document.body.classList.remove('light-theme');
+    }
+
     this.getMovies();
     this.loadFavorites();
     this.loadGenres();
@@ -178,6 +189,17 @@ export class AppComponent implements OnInit, OnDestroy {
       this.movieService.addToFavorites(movies.id);
     }
     this.loadFavorites();
+  }
+
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+    if (this.isDarkTheme) {
+      document.body.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
+    }
   }
 
   clearError(): void {

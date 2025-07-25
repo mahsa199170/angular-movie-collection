@@ -1,20 +1,25 @@
 <div class="app-container">
-  <header class="app-header">
-    <h1 class="app-title">🎬Movie Collection Manager</h1>
+  <header class="app-header app-header-flex">
+    <h1 class="app-title">🎬 Movie Collection Manager</h1>
+    <div class="theme-toggle-fixed">
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <span class="theme-icon">{{ isDarkTheme ? "☽" : "☀" }}</span>
+        <!-- {{ isDarkTheme ? "Dark" : "Light" }} -->
+      </button>
+    </div>
   </header>
   <main class="app-main" *ngIf="isMainPage">
+    <!-- Search -->
+    <div class="filter-section">
+      <app-search-bar
+        (searchTermChange)="onSearchChange($event)"
+      ></app-search-bar>
+    </div>
     <div class="main-content">
       <div class="filters-sidebar">
-        <div class="sidebar-header">
-          <h3>Search & Filters</h3>
-        </div>
-
-        <!-- Search -->
-        <div class="filter-section">
-          <app-search-bar
-            (searchTermChange)="onSearchChange($event)"
-          ></app-search-bar>
-        </div>
+        <!-- <div class="sidebar-header">
+          <h3>Filters</h3>
+        </div> -->
 
         <!-- Sort Dropdown -->
         <div class="filter-section">
